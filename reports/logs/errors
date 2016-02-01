@@ -1,0 +1,4 @@
+15:02:19 28/01/2016 : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'BETWEEN min AND max' at line 1
+
+15:02:19 28/01/2016 : SELECT deduction FROM nhif WHERE  BETWEEN min AND max
+
