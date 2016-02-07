@@ -173,7 +173,9 @@ if (isset($_GET['m'], $_GET['y'])) {
         $pdf->Cell($w2, $h, "");
         $pdf->Cell($w3, $h, "(" . number_format($nssf, 2) . ")", 0, 1, "R", true);
 
-        $nhif = $obj->nhif_value($gross);
+        $nhif = $obj->nhif_value($basic);
+        if ($basic > 100000)
+            $nhif = 1700;
         $totalDeduction += $nhif;
         $pdf->Cell($w, $h, "N.H.I.F");
         $pdf->Cell($w2, $h, "");
@@ -257,7 +259,7 @@ if (isset($_GET['m'], $_GET['y'])) {
 
 //Flush (send) the output buffer and turn off output buffering
 //ob_end_flush();
-    while (@ob_end_flush()) ;
+    while (@ob_end_flush()) {};
 
 // Implicitly flush the buffer(s)
     ini_set('implicit_flush', true);

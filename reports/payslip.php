@@ -169,7 +169,9 @@ foreach ($employees as $employee) {
     $pdf->Cell($w2, $h, "");
     $pdf->Cell($w3, $h, "(" . number_format($nssf, 2) . ")", 0, 1, "R", true);
 
-    $nhif = $obj->nhif_value($gross);
+    $nhif = $obj->nhif_value($basic);
+    if ($basic > 100000)
+        $nhif = 1700;
     $totalDeduction += $nhif;
     $pdf->Cell($w, $h, "N.H.I.F");
     $pdf->Cell($w2, $h, "");

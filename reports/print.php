@@ -176,7 +176,7 @@ foreach ($rows as $rw) {
             $pdf->Cell($w, 0, number_format($nssf, 2), 1, 0, 'R');
 
         $nhif = $obj->nhif_value($rec->basic_pay);
-        if ($gross > 100000)
+        if ($rec->basic_pay > 100000)
             $nhif = 1700;
         if ($i == 20)
             $pdf->Cell($w, 0, number_format((float)$nhif, 2), 1, 0, 'R');
