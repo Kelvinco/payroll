@@ -2,13 +2,13 @@
 /**
  * Created by PhpStorm
  * Designed by Makmesh iKiev
- * <ikiev@makmesh.com>
+ * <wainaina.kelvin@gmail.com>
  * Copyright �2015
  * All Rights Reserved
  * Date: 02/01/2016
  * Time: 6:24 PM
  *
- * Package Name: Makmesh Payroll (Kenya)
+ * Package Name: Map Surveys (K) Ltd.
  * File Name: p9a.php
  *
  */
@@ -63,7 +63,7 @@ $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 $pdf->setFontSubsetting(true);
 $pdf->SetFont('', 'B', 10, '', true);
 
-$pdf->SetTitle("Makmesh Payroll (Kenya) - P9A");
+$pdf->SetTitle("Mapsurveys (K) LTD. - P9A");
 
 $year = (int)$_GET['y'];
 
@@ -83,10 +83,10 @@ foreach ($employees as $emp) {
 
     $pdf->SetFont('', '', 10);
 
-    $pdf->Cell(170, 5, 'Employer\'s Name:                 Makmesh Payroll (Kenya)');
+    $pdf->Cell(170, 5, 'Employer\'s Name:                 MAPSURVEYS (K) LIMITED');
     $pdf->Cell(50, 5, 'Employer\'s PIN:');
 
-    $pin = "A000000000Z";
+    $pin = "P051107674F";
     for ($i = 0; $i < 11; ++$i)
         $pdf->Cell(5, 5, $pin[$i], 1, 0, "C");
 
@@ -161,7 +161,7 @@ foreach ($employees as $emp) {
     $pdf->SetFont('', '', 8);
     $mende = 1;
 
-    $a = $b = $e2 = $e3 = $jT = $k = $chargable = $totalT = 0;
+    $a = $b = $e2 = $e3 = $jT = $k = $chargable = $totalT = $totalA = 0;
     for ($i = 0; $i < count($headers) + 1; ++$i) {
 
         if ($i == 12)
@@ -172,6 +172,7 @@ foreach ($employees as $emp) {
         $pdf->Cell($width[$j], $h, $months[$i], 1);
         $month = $i + 1;
         $allowance = $obj->get_allowance($id, $month, $year);
+        $totalA += $allowance;
         ++$j;
         $pdf->SetFont('', '', 8);
         $actual = $obj->get_actual($mende, $year, $id);
@@ -196,6 +197,8 @@ foreach ($employees as $emp) {
                 if ($j == 2) {
                     if ($allowance)
                         $row = number_format($allowance / 1, 2);
+                    if ($i == 12)
+                        $row = number_format($totalA / 1, 2);
                 } elseif ($j == 1) {
                     $row = number_format($basic, 2);
                     if ($i == 12)
