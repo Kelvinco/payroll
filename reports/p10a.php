@@ -63,7 +63,10 @@ $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 $pdf->setFontSubsetting(true);
 $pdf->SetFont('', 'BI', 14, '', true);
 
-$pdf->SetTitle("Makmesh Payroll (Kenya) - P10A");
+$obj = new Employee();
+$company = $obj->get_company();
+
+$pdf->SetTitle("$company->name - P10A");
 
 $pdf->AddPage();
 $year = (int)$_GET['y'];
@@ -79,14 +82,14 @@ $pdf->Cell(150, 10, "PIN", 0, 1, "R");
 
 $pdf->Cell(120, 5, "");
 $pdf->SetFont('');
-$pin = "A000000000Z";
+
 for ($i = 0; $i < 11; ++$i)
-    $pdf->Cell(5, 5, $pin[$i], 1, 0, "C");
+    $pdf->Cell(5, 5, $company->kra_pin[$i], 1, 0, "C");
 
 $pdf->SetFont('', 'B');
 $pdf->Ln();
 
-$pdf->Cell(0, 10, "EMPLOYER'S NAME:     Makmesh Payroll (Kenya)", 0, 1);
+$pdf->Cell(0, 10, "EMPLOYER'S NAME:     $company->name", 0, 1);
 
 $headers = array("EMPLOYEE'S PIN", 'EMPLOYEE\'S NAME', 'TOTAL EMOLUMENTS KSHS.', "PAYE DEDUCTED  KSHS.");
 
@@ -101,7 +104,6 @@ foreach ($headers as $head) {
 $pdf->Ln();
 $pdf->SetFont('');
 
-$obj = new Employee();
 $items = $obj->get_employees();
 
 $pdf->setColor('fill', 220, 220, 220);

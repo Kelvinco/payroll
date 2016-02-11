@@ -62,13 +62,14 @@ $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 
 $pdf->setFontSubsetting(true);
 
-
-$pdf->SetTitle("Makmesh Payroll (Kenya) - Bank Slip");
+$obj = new Employee();
+$company = $obj->get_company();
+$pdf->SetTitle("$company->name - Bank Slip");
 
 $month = (int)$_GET['m'];
 $year = (int)$_GET['y'];
 
-$obj = new Employee();
+
 
 $employees = $obj->get_employees();
 
@@ -88,7 +89,7 @@ $h = 15;
 $date = date("d/m/Y");
 $pdf->Cell($width[0], $h, "", 1);
 $pdf->Cell($width[1] + $width[2], $h, "KCB LTD SALARIES TEMPLATE");
-$pdf->Cell($width[3] + $width[4] + $width[5], $h, "   FROM COMPANY: Makmesh Payroll (Kenya).");
+$pdf->Cell($width[3] + $width[4] + $width[5], $h, "   FROM COMPANY: $company->name.");
 $pdf->Cell($width[6], $h, "DATE: $date");
 $pdf->Cell($width[7], $h, "", 1, 1);
 
@@ -118,8 +119,8 @@ foreach ($employees as $row) {
         $pdf->Cell($width[2], $h, $row->account_no, 1);
         $pdf->Cell($width[3], $h, $row->bank . "/" . $row->branch, 1);
         $pdf->Cell($width[4], $h, $row->code, 1);
-        $pdf->Cell($width[5], $h, number_format($a, 2), 1, 0, "R");
-        $pdf->Cell($width[6], $h, "Makmesh Payroll (Kenya)", 1);
+        $pdf->Cell($width[5], $h, number_format($a/1, 2), 1, 0, "R");
+        $pdf->Cell($width[6], $h, $company->name, 1);
         $pdf->Cell($width[7], $h, "", 1, 1);
     }
 }
@@ -142,7 +143,7 @@ $dateObj = DateTime::createFromFormat("!m", $month);
 $monthName = $dateObj->format('F');
 $pdf->Cell($width[0], $h, "", 1);
 $pdf->Cell($width[1] + $width[2] + $width[3] + $width[4] + $width[5] + $width[6], $h,
-    "   MAPS Voucher No.: $voucher     Cheque No.: $cheque     Dated: $date    Month of Pay: $monthName    Year: $year", 1);
+    "   Voucher No.: $voucher     Cheque No.: $cheque     Dated: $date    Month of Pay: $monthName    Year: $year", 1);
 $pdf->Cell($width[7], $h, "", 1, 1);
 
 $h = 15;

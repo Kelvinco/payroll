@@ -63,7 +63,9 @@ $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 $pdf->setFontSubsetting(true);
 $pdf->SetFont('', 'BI', 10, '', true);
 
-$pdf->SetTitle("Makmesh Payroll (Kenya) - P10A");
+$obj = new Employee();
+$company = $obj->get_company();
+$pdf->SetTitle("$company->name - P10A");
 
 $pdf->AddPage();
 $year = (int)$_GET['y'];
@@ -78,9 +80,9 @@ $pdf->Cell(153, 5, "EMPLOYER'S PIN", 0, 1, "R");
 
 $pdf->Cell(110, 5, "");
 $pdf->SetFont('');
-$pin = "A000000000Z";
+
 for ($i = 0; $i < 11; ++$i)
-    $pdf->Cell(5, 5, $pin[$i], 1, 0, "C");
+    $pdf->Cell(5, 5, $company->kra_pin[$i], 1, 0, "C");
 
 $pdf->SetFont('', 'B');
 
@@ -92,7 +94,6 @@ $pdf->Cell(0, 5, "YEAR $year", 0, 1, "C");
 $pdf->Cell(0, 5, "To Senior Assistant Commissioner", 0, 1);
 $pdf->Cell(0, 10, "................................................................", 0, 1);
 
-$obj = new Employee();
 $ntax2 = $obj->sum_tax(0, $year, true);
 $ptx2 = "";
 if ($ntax2)
@@ -158,12 +159,12 @@ $pdf->Cell(0, $h, "We/I certify that the particulars entered above are correct."
 $pdf->SetFont('', 'B');
 $pdf->Cell(50, $h, "NAME OF EMPLOYER:");
 $pdf->SetFont('');
-$pdf->Cell(50, $h, "MAPSSURVEYS (K) LIMITED", 0, 1);
+$pdf->Cell(50, $h, $company->name, 0, 1);
 
 $pdf->SetFont('', 'B');
 $pdf->Cell(50, $h, "ADDRESS");
 $pdf->SetFont('');
-$pdf->Cell(50, $h, "P.O Box 000000 00100 - Nairobi", 0, 1);
+$pdf->Cell(50, $h, $company->box_address, 0, 1);
 
 $pdf->SetFont('', 'B');
 $pdf->Cell(50, $h, "SIGNATURE");

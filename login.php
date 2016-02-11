@@ -18,6 +18,8 @@ if (isset($_GET['logout'])) {
     session_unset();
     session_destroy();
 }
+$obj = new Employee();
+$company = $obj->get_company();
 ?>
 <!DOCTYPE html>
 <!--[if IE 8]>
@@ -30,7 +32,7 @@ if (isset($_GET['logout'])) {
 <!-- BEGIN HEAD -->
 <head>
     <meta charset="UTF-8"/>
-    <title>Makmesh Payroll (Kenya) | Login</title>
+    <title><?php echo $company->name ?> | Login</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <meta content="" name="description"/>
     <meta content="" name="author"/>
@@ -42,7 +44,6 @@ if (isset($_GET['logout'])) {
     <link rel="stylesheet" href="assets/plugins/bootstrap/css/bootstrap.css"/>
     <link rel="stylesheet" href="assets/css/login.css"/>
     <link href="assets/plugins/gritter/css/jquery.gritter.css" rel="stylesheet"/>
-    <link rel="stylesheet" href="assets/plugins/magic/magic.css"/>
     <!-- END PAGE LEVEL STYLES -->
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -58,7 +59,7 @@ if (isset($_GET['logout'])) {
 <!-- PAGE CONTENT -->
 <div class="container">
     <div class="text-center">
-        Makmesh Payroll (Kenya)
+        <?php echo $company->name?>
     </div>
     <div class="tab-content">
         <div id="login" class="tab-pane active">
@@ -100,8 +101,8 @@ if (isset($_GET['logout'])) {
 <!--END PAGE LEVEL SCRIPTS -->
 <script>
     <?php
-if(isset($message) and isset($mstitle)){
- ?>
+    if(isset($message) and isset($mstitle)){
+    ?>
     $.gritter.add({
         title: '<?php echo $mstitle?>',
         text: '<?php echo $message?>',
@@ -109,8 +110,8 @@ if(isset($message) and isset($mstitle)){
         time: ''
     });
     <?php
-}
- ?>
+    }
+    ?>
 </script>
 </body>
 <!-- END BODY -->

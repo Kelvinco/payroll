@@ -19,6 +19,8 @@ if (!isset($_SESSION['login'])) {
     header("Location: login.php");
     exit;
 }
+$obj = new Employee();
+$company = $obj->get_company();
 ?>
 
 <!DOCTYPE html>
@@ -76,7 +78,7 @@ if (!isset($_SESSION['login'])) {
             <!-- LOGO SECTION -->
             <header class="navbar-header">
                 <a href="./" class="navbar-brand">
-                    Makmesh Payroll (Kenya)
+                    <?php echo $company->name ?>
                 </a>
             </header>
 
@@ -113,19 +115,21 @@ if (!isset($_SESSION['login'])) {
         $payroll = $overtime = $deduction = $nhif = $paye = $employee = $allowance = "";
         if (isset($_GET['page'])) {
             $page = $_GET['page'];
-            if ($page == 'payroll')
+            if ($page === 'payroll')
                 $payroll = "active";
-            if ($page == 'overtime')
+            if ($page === 'overtime')
                 $overtime = 'active';
-            if ($page == 'deduction')
-                $deduction = "active";
-            if ($page == 'nhif')
+            if ($page === 'deduction')
+                $deduction = 'active';
+            if ($page === 'nhif')
                 $nhif = 'active';
-            if ($page == 'paye')
+            if ($page === 'paye')
                 $paye = 'active';
-            if ($page == 'allowance')
+            if ($page === 'allowance')
                 $allowance = 'active';
-        } else $employee = "active";
+            if($page === 'profile')
+                $profile = 'active';
+        } else $employee = 'active';
         ?>
 
         <ul id="menu" class="collapse">
@@ -183,6 +187,12 @@ if (!isset($_SESSION['login'])) {
                     <i class="icon-puzzle-piece"></i> P.9A
                 </a>
             </li>
+
+            <li class="panel <?php echo $profile ?>">
+                <a href="?page=profile" id="p9a">
+                    <i class="icon-puzzle-piece"></i> Company's Profile
+                </a>
+            </li>
         </ul>
 
     </div>
@@ -205,7 +215,7 @@ if (!isset($_SESSION['login'])) {
 
 <!-- FOOTER -->
 <div id="footer">
-    <p>&copy; Makmesh Payroll (Kenya) &nbsp;2016 &nbsp;</p>
+    <p>&copy; <?php echo $company->name . '&nbsp;' . date('Y') ?> &nbsp;</p>
 </div>
 <!--END FOOTER -->
 

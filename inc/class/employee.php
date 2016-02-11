@@ -428,4 +428,21 @@ class Employee extends OurDB
     {
         return self::get_val("SELECT SUM(amount) FROM employee_allowance WHERE year = $y AND month = $m");
     }
+
+    public function get_company()
+    {
+        $company = self::get_rows('SELECT name, id, box_address, kra_pin FROM company');
+        if ($company)
+            return array_shift($company);
+        return false;
+    }
+
+    public function edit_company($item)
+    {
+        $input = array('name' => $item['name'], 'box_address' => $item['box_address'], 'kra_pin' => $item['kra_pin']);
+        if (self::edit('company', $input, $item['id']))
+            return array('profile', 'Profile Notification!', 'Your changes were saved.');
+
+        return array('profile', 'Profile Notification!', 'You made no changes.');
+    }
 }

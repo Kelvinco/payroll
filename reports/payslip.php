@@ -63,10 +63,12 @@ $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 $pdf->setFontSubsetting(true);
 $pdf->SetFont('', 'B', 16, '', true);
 
-$pdf->SetTitle('Makmesh Payroll (Kenya) - Payslip');
+$obj = new Employee();
+$company = $obj->get_company();
+$pdf->SetTitle($company->name . ' - Payslip');
 
 /**********************************************************************************************************************/
-$obj = new Employee();
+
 
 $month = (int)$_GET['m'];
 $year = (int)$_GET['y'];
@@ -85,7 +87,7 @@ foreach ($employees as $employee) {
     $pdf->Rect(15, 40, 130, 150);
 
     $dateObj = DateTime::createFromFormat("!m", $month);
-    $pdf->Cell(50, 0, "Makmesh Payroll (Kenya)");
+    $pdf->Cell(50, 0, $company->name);
     $pdf->Cell(40, 0, "Month of Pay:");
     $pdf->SetFont('');
     $pdf->Cell(40, 0, $monthName = $dateObj->format('F'));

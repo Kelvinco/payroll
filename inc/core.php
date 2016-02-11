@@ -25,7 +25,7 @@ $base_dir = $directories[count($directories) - 2];
 !defined("URL") ? define("URL", str_replace("/$base_dir/", "", $_SERVER["REQUEST_URI"])) : false;
 
 if (isset($_SESSION['login'])) {
-    // Log out user after 10 minutes of inactivity
+    // Log out user after 30 minutes of inactivity
     if (!isset($_SESSION['now'])) {
         $_SESSION['now'] = time();
     }
@@ -35,8 +35,9 @@ if (isset($_SESSION['login'])) {
         if (($S) > 1800) {
             unset($_SESSION['now'], $_SESSION['login']);
             $_SESSION['redirect'] = URL;
-            $_SESSION['success'] = "You were logged out after 30 minutes of inactivity.";
-            header("Location: " . $_SESSION['redirect']);
+            $_SESSION['title'] = 'Login Notification!';
+            $_SESSION['message'] = 'You were logged out after 30 minutes of inactivity.';
+            header('Location: ' . $_SESSION['redirect']);
             exit;
         } else {
             $_SESSION['now'] = time();
@@ -61,7 +62,9 @@ function title()
             $title = isset($final[$param]) ? $final[$param] : "";
         else $title = "Page Not Found";
     } else $title = "Home Page";
-    echo "Makmesh Payroll (Kenya) | " . $title;
+    $obj = new Employee();
+    $company = $obj->get_company();
+    echo "$company->name | " . $title;
 }
 
 function __autoload($class_name)
@@ -221,4 +224,14 @@ function allowance()
 
     $obj = new Employee();
     return $obj->save_allowance($input, $url);
+}
+
+function profile()
+{
+    $input = sanitize_input();
+    if (is_string($input))
+        return array('profile', 'Profile Notification!', $input);
+
+    $obj = new Employee();
+    return $obj->edit_company($input);
 }

@@ -37,9 +37,11 @@ function __autoload($class_name)
         echo "Exception: " . $e->getMessage();
     }
 }
+$obj = new Employee();
+$company = $obj->get_company();
 
 if (isset($_GET['m'], $_GET['y'])) {
-    $obj = new Employee();
+
     $month = (int)$_GET['m'];
     $year = (int)$_GET['y'];
     if (!$obj->check_payroll($month, $year)) die("Please generate the payroll first.");
@@ -75,7 +77,7 @@ if (isset($_GET['m'], $_GET['y'])) {
         $pdf->setFontSubsetting(true);
         $pdf->SetFont('', 'B', 16, '', true);
 
-        $pdf->SetTitle("Makmesh Payroll (Kenya) - Payslip");
+        $pdf->SetTitle("$company->name - Payslip");
 
 
         $id = $employee->id;
@@ -89,7 +91,7 @@ if (isset($_GET['m'], $_GET['y'])) {
         $pdf->Rect(15, 40, 130, 150);
 
         $dateObj = DateTime::createFromFormat("!m", $month);
-        $pdf->Cell(50, 0, "Makmesh Payroll (Kenya)");
+        $pdf->Cell(50, 0, $company->name);
         $pdf->Cell(40, 0, "Month of Pay:");
         $pdf->SetFont('');
         $pdf->Cell(40, 0, $monthName = $dateObj->format('F'));
@@ -259,7 +261,8 @@ if (isset($_GET['m'], $_GET['y'])) {
 
 //Flush (send) the output buffer and turn off output buffering
 //ob_end_flush();
-    while (@ob_end_flush()) {};
+    while (@ob_end_flush()) {
+    };
 
 // Implicitly flush the buffer(s)
     ini_set('implicit_flush', true);
@@ -273,7 +276,7 @@ if (isset($_GET['m'], $_GET['y'])) {
     <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Makmesh Payroll (Kenya): Sending Payslip</title>
+        <title><?php $company->name ?>: Sending Payslip</title>
     </head>
     <body>
     Sending...

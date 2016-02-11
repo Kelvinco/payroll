@@ -63,11 +63,13 @@ $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 $pdf->setFontSubsetting(true);
 $pdf->SetFont('', 'B', 16, '', true);
 
-$pdf->SetTitle('Makmesh Payroll (Kenya) - Payroll');
+$obj = new Employee();
+$company = $obj->get_company();
+$pdf->SetTitle($company->name . ' - Payroll');
 
 $pdf->AddPage();
 
-$pdf->Cell(0, 0, 'Makmesh Payroll (Kenya)', 0, 1);
+$pdf->Cell(0, 0, $company->name, 0, 1);
 
 $year = (int)$_GET['y'];
 $month = (int)$_GET['m'];
@@ -78,7 +80,7 @@ $pdf->Cell(100, 0, 'PAYROLL');
 $pdf->Cell(100, 0, "YEAR $year");
 $pdf->Cell(100, 0, "SHEET $sheet", 0, 1);
 
-$obj = new Employee();
+
 $employees = $obj->get_employees();
 
 $rows = array('MONTH', 'DETAILS', 'EARNINGS', 'BASIC', 'ALLOWANCES', 'OVERTIME', '', 'a. GROSS PAY', 'T/CALCULATION',

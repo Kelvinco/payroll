@@ -14,3 +14,6 @@ The Database configuration file is 'inc/class/db.php';
 To access the system use the following:
 username: supervisor
 password: 1234
+
+To configure sending email to employee
+Go to 'reports/email.php' on line 314 and configure the Gmail SMPT details to match yours

@@ -63,11 +63,14 @@ $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 $pdf->setFontSubsetting(true);
 $pdf->SetFont('', 'B', 10, '', true);
 
-$pdf->SetTitle("Mapsurveys (K) LTD. - P9A");
+$obj = new Employee();
+$company = $obj->get_company();
+
+$pdf->SetTitle("$company->name - P9A");
 
 $year = (int)$_GET['y'];
 
-$obj = new Employee();
+
 $employees = $obj->get_employees();
 foreach ($employees as $emp) {
     $id = $emp->id;
@@ -83,12 +86,11 @@ foreach ($employees as $emp) {
 
     $pdf->SetFont('', '', 10);
 
-    $pdf->Cell(170, 5, 'Employer\'s Name:                 MAPSURVEYS (K) LIMITED');
+    $pdf->Cell(170, 5, 'Employer\'s Name:                 ' . $company->name);
     $pdf->Cell(50, 5, 'Employer\'s PIN:');
 
-    $pin = "P051107674F";
     for ($i = 0; $i < 11; ++$i)
-        $pdf->Cell(5, 5, $pin[$i], 1, 0, "C");
+        $pdf->Cell(5, 5, $company->kra_pin[$i], 1, 0, "C");
 
     $pdf->Ln(5);
 
