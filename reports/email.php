@@ -37,11 +37,9 @@ function __autoload($class_name)
         echo "Exception: " . $e->getMessage();
     }
 }
-$obj = new Employee();
-$company = $obj->get_company();
 
 if (isset($_GET['m'], $_GET['y'])) {
-
+    $obj = new Employee();
     $month = (int)$_GET['m'];
     $year = (int)$_GET['y'];
     if (!$obj->check_payroll($month, $year)) die("Please generate the payroll first.");
@@ -77,21 +75,21 @@ if (isset($_GET['m'], $_GET['y'])) {
         $pdf->setFontSubsetting(true);
         $pdf->SetFont('', 'B', 16, '', true);
 
-        $pdf->SetTitle("$company->name - Payslip");
+        $pdf->SetTitle("Mapsurveys (K) LTD. - Payslip");
 
 
         $id = $employee->id;
         $basic = $employee->basic_pay;
         $pdf->AddPage();
-        $pdf->setColor("fill", 220, 220, 220);
-        $pdf->Cell(130, 0, "SALARY VOUCHER", 0, 1, "C", true);
+        $pdf->setColor('fill', 220, 220, 220);
+        $pdf->Cell(130, 0, 'SALARY VOUCHER', 0, 1, 'C', true);
         $pdf->SetFont('', 'B', 10);
         $pdf->Ln(9);
 
         $pdf->Rect(15, 40, 130, 150);
 
         $dateObj = DateTime::createFromFormat("!m", $month);
-        $pdf->Cell(50, 0, $company->name);
+        $pdf->Cell(50, 0, "Mapsurveys (K) Limited");
         $pdf->Cell(40, 0, "Month of Pay:");
         $pdf->SetFont('');
         $pdf->Cell(40, 0, $monthName = $dateObj->format('F'));
@@ -138,7 +136,7 @@ if (isset($_GET['m'], $_GET['y'])) {
             foreach ($allowances as $allowance) {
                 $gross += $allowance->amount;
                 $pdf->Cell($w, 5, $allowance->allowance);
-                $pdf->Cell($w2, 5, '');
+                $pdf->Cell($w2, 5, "");
                 $pdf->Cell($w3, 5, number_format($allowance->amount, 2), 0, 1, "R", true);
             }
 
@@ -216,7 +214,7 @@ if (isset($_GET['m'], $_GET['y'])) {
         $totalDeduction -= $relief;
         $pdf->Cell($w, $h, "MONTHLY RELIEF");
         $pdf->Cell($w2, $h, "");
-        $pdf->Cell($w3, $h,  number_format($relief, 2) , 0, 1, "R", true);
+        $pdf->Cell($w3, $h,  number_format($relief, 2), 0, 1, "R", true);
 
         if ($other)
             foreach ($other as $oth)
@@ -238,8 +236,9 @@ if (isset($_GET['m'], $_GET['y'])) {
 
         $pdf->Cell($w, $h, "NET PAY", "B");
         $pdf->Cell($w2, $h, "", "B");
-        $np = $basic - $totalDeduction;
+        $np = $gross - $totalDeduction;
         $pdf->Cell($w3, $h, number_format($np, 2), "B", 1, "R", true);
+
 
         $pdf->Cell($w, $h, "TOTAL POSTED", "B");
         $pdf->Cell($w2, $h, "", "B");
@@ -261,8 +260,7 @@ if (isset($_GET['m'], $_GET['y'])) {
 
 //Flush (send) the output buffer and turn off output buffering
 //ob_end_flush();
-    while (@ob_end_flush()) {
-    };
+    while (@ob_end_flush()) ;
 
 // Implicitly flush the buffer(s)
     ini_set('implicit_flush', true);
@@ -276,7 +274,7 @@ if (isset($_GET['m'], $_GET['y'])) {
     <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title><?php $company->name ?>: Sending Payslip</title>
+        <title>Map Surveys (K): Sending Payslip</title>
     </head>
     <body>
     Sending...
@@ -311,11 +309,11 @@ if (isset($_GET['m'], $_GET['y'])) {
     $mail->isSMTP();
     $mail->Host = 'smtp.gmail.com';
     $mail->SMTPAuth = true;
-    $mail->Username = 'your_email@gmail.com';
-    $mail->Password = 'your_password';
+    $mail->Username = 'mapsurveysk@gmail.com';
+    $mail->Password = 'mapsurveys321';
     $mail->SMTPSecure = 'tls';
     $mail->Port = 587;
-    $mail->setFrom('your_email@gmail.com', 'Your Name');
+    $mail->setFrom('noreply@mapsurveys.co.ke', 'Mapsurveys (K) Limited');
     $mail->Subject = date("F") . ' Payslip';
     $mail->Body = 'Attached.';
 
