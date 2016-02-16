@@ -213,10 +213,10 @@ if (isset($_GET['m'], $_GET['y'])) {
         $pdf->Cell($w3, $h, $he, 0, 1, "R", true);
 
         $relief = $deductions[0]->value;
-        $totalDeduction += $relief;
+        $totalDeduction -= $relief;
         $pdf->Cell($w, $h, "MONTHLY RELIEF");
         $pdf->Cell($w2, $h, "");
-        $pdf->Cell($w3, $h, "(" . number_format($relief, 2) . ")", 0, 1, "R", true);
+        $pdf->Cell($w3, $h,  number_format($relief, 2) , 0, 1, "R", true);
 
         if ($other)
             foreach ($other as $oth)
