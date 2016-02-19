@@ -112,7 +112,7 @@ $company = $obj->get_company();
         </div>
 
         <?php
-        $payroll = $overtime = $deduction = $nhif = $paye = $employee = $allowance = "";
+        $payroll = $overtime = $deduction = $nhif = $paye = $employee = $allowance = $profile = "";
         if (isset($_GET['page'])) {
             $page = $_GET['page'];
             if ($page === 'payroll')
@@ -127,7 +127,7 @@ $company = $obj->get_company();
                 $paye = 'active';
             if ($page === 'allowance')
                 $allowance = 'active';
-            if($page === 'profile')
+            if ($page === 'profile')
                 $profile = 'active';
         } else $employee = 'active';
         ?>
