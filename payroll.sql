@@ -194,4 +194,5 @@ INSERT INTO `payroll` (`id`, `employee_id`, `item`, `value`, `month`, `year`) VA
   (2,	3,	'Misc Ded/Ref',	2233,	1,	2016),
   (3,	5,	'Loan Repayment',	5000,	1,	2016);
 
+ALTER TABLE `employee` ADD `exclude` INT(11) NOT NULL DEFAULT '0';
 -- 2016-02-11 12:14:31

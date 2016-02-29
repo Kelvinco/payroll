@@ -144,10 +144,13 @@ class Employee extends OurDB
 //        } else return array('deduction', 'Deduction Notification.', 'Something went wrong. Please try again later.');
     }
 
-    public function get_employees()
+    public function get_employees($home = null)
     {
+        $s = ' WHERE exclude = 0';
+        if ($home)
+            $s = '';
         return self::get_rows("SELECT `id`, `fname`, `mname`, `lname`, `pin`, `national_id`, `email`, `nssf_no`,
-                                  `nhif_no`, `account_no`, `basic_pay`, `bank`, `branch`, `code` FROM employee");
+                                  `nhif_no`, `account_no`, `basic_pay`, `bank`, `branch`, `code` FROM employee $s");
     }
 
     public function get_employee($id)
@@ -444,5 +447,12 @@ class Employee extends OurDB
             return array('profile', 'Profile Notification!', 'Your changes were saved.');
 
         return array('profile', 'Profile Notification!', 'You made no changes.');
+    }
+
+    public function exclude($id)
+    {
+        if (self::execute_query("UPDATE employee SET exclude = 1 WHERE id = $id"))
+            return 'The employee will not appear in the payroll.';
+        return 'Invalid Employee ID supplied.';
     }
 }

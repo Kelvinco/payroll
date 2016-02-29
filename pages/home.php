@@ -25,6 +25,25 @@ MENDE;
 
 $obj = new Employee();
 $members = $obj->get_employees();
+
+if (isset($_GET['id'])) {
+    $id = (int)$_GET['id'];
+    $meso = $obj->exclude($id);
+
+    $_SESSION['title'] = 'Employee Leave.';
+
+    $_SESSION['message'] = $meso;
+
+    echo <<<MENDE
+
+<script>
+    $(function () {
+        self.location = './';
+    });
+</script>
+
+MENDE;
+}
 ?>
 
 <div class="row">
@@ -68,10 +87,14 @@ $members = $obj->get_employees();
                                 foreach ($members as $row) {
                                     ++$i;
                                     $j = ($i % 2);
+                                    $checked = '';
+                                    if($row->exclude == 1)
+                                        $checked = 'checked';
                                     echo "<tr $class[$j]><td>$i</td>
                                             <td><a href='?page=record&id=$row->id'
                                             title='Click to Update/Delete Employee'>$row->fname $row->mname $row->lname
                                             </a></td><td>$row->pin</td><td>$row->email</td><td>$row->national_id</td>
+                                            <td><input $checked class='form-control leave' type='checkbox' lang='$row->id'></td>
                                             </tr>";
                                 }
                             ?>
@@ -82,10 +105,21 @@ $members = $obj->get_employees();
             </div>
         </div>
     </div>
-<script src="assets/plugins/dataTables/jquery.dataTables.js"></script>
-<script src="assets/plugins/dataTables/dataTables.bootstrap.js"></script>
+<!--<script src="assets/plugins/dataTables/jquery.dataTables.js"></script>-->
+<!--<script src="assets/plugins/dataTables/dataTables.bootstrap.js"></script>-->
+<!--<script>-->
+<!--    $(document).ready(function () {-->
+<!--        $('#dataTables-example').dataTable();-->
+<!--    });-->
+<!--</script>-->
+
+
 <script>
-    $(document).ready(function () {
-        $('#dataTables-example').dataTable();
+    $(function () {
+        $('.leave').on('click', function () {
+            var id = $(this).attr('lang');
+            if (confirm('Do you want to exclude the employee from payroll?'))
+                self.location = './?id=' + id;
+        });
     });
 </script>
