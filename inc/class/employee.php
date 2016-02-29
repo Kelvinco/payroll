@@ -286,7 +286,7 @@ class Employee extends OurDB
 
     public function sum_basicpay()
     {
-        return self::get_val("SELECT SUM(basic_pay) FROM employee");
+        return self::get_val("SELECT SUM(basic_pay) FROM employee WHERE exclude = 0");
     }
 
     public function other_deductions($y, $m)
